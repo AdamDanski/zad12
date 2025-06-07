@@ -17,11 +17,9 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // Konfiguracja klucza złożonego dla tabeli łączącej
         modelBuilder.Entity<ClientTrip>()
             .HasKey(ct => new { ct.IdClient, ct.IdTrip });
 
-        // Relacje
         modelBuilder.Entity<ClientTrip>()
             .HasOne(ct => ct.Client)
             .WithMany(c => c.ClientTrips)
@@ -32,7 +30,6 @@ public class AppDbContext : DbContext
             .WithMany(t => t.ClientTrips)
             .HasForeignKey(ct => ct.IdTrip);
 
-        // Relacja many-to-many między Trip i Country (jeśli jest tabela pośrednia)
         modelBuilder.Entity<Trip>()
             .HasMany(t => t.Countries)
             .WithMany(c => c.Trips)
